@@ -1,0 +1,19 @@
+---
+# performKernelUpdateRebootServer.yml
+# # performs yum update and reboots server
+ - name: perform kernel update / reboot server
+   hosts: all
+   remote_user: ravi
+   become: true
+   become_method: sudo
+   become_user: root
+   tasks:
+         - name: Perform kernel update of all packages
+           yum: name=kernel-3.10.0-1160.31.1.el7.x86_64 state=present
+
+         - name: install updates using yum
+           yum: name="*" state=latest
+         
+         - name: Reboot server
+           command: /sbin/shutdown -r +1
+           ignore_errors: true
